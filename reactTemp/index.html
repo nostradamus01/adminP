@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="icons/my.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyMobile</title>
+  </head>
+  <body>
+    <script>
+      // Global variables
+      let currentTheme = '';
+
+      // Global class Gb
+      class Gb {
+        static Themes = {
+          LIGHT: 'light',
+          DARK: 'dark'
+        }
+  
+        static setTheme(theme, isPreferred) {
+          const body = document.body;
+          if (body) {
+            if (theme === this.Themes.DARK) {
+              document.body.classList.add('dark');
+            } else if (theme === this.Themes.LIGHT) {
+              document.body.classList.remove('dark');
+            }
+            if (isPreferred) {
+              try {
+                localStorage.setItem('preferredTheme', theme);
+              } catch (err) { }
+            }
+            currentTheme = theme;
+          }
+        }
+  
+        static getPreferredTheme() {
+          let preferredTheme = null;
+          try {
+            preferredTheme = localStorage.getItem('preferredTheme');
+          } catch (err) { }
+          return preferredTheme;
+        }
+      }
+  
+      // Set theme
+      (function () {
+        let preferredTheme = Gb.getPreferredTheme();
+        if (!preferredTheme) {
+          const darkThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+          preferredTheme = darkThemeQuery.matches ? Gb.Themes.DARK : Gb.Themes.LIGHT;
+        }
+        Gb.setTheme(preferredTheme);
+      })();
+    </script>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

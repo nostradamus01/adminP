@@ -1,0 +1,22 @@
+body {
+  --bg-main: #fff;
+  --main: #111;
+  --main-hover: #edededa0;
+  --action: #219ebc;
+  --bg-second: #edededa0;
+  --second: #ff8800;
+  --border-main: var(--main);
+  --border-second: #7e7e7e8b;
+  --input-inactive-border: #888888;
+  --search: #78839b33;
+  --search-placeholder: var(--input-inactive-border);
+}
+
+body.dark {
+  --bg-main: #23272F;
+  --main: #ededed;
+  --action: #8ecae6;
+  --bg-second: #2d323a;
+  --second: #ffb703;
+  --input-inactive-border: #cacaca;
+}
