@@ -1,20 +1,8 @@
 import { defineStore } from 'pinia'
+import { createClient } from "@supabase/supabase-js";
 
-const sendRequest = async (body, url) => {
-  let response = [];
-  try {
-    const request = await fetch('/api/apu' + (url || ''), {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    response = await request.json();
-  }
-  catch (e) {}
-  return response;
-}
+const { VITE_SUPABASE_URL, VITE_SUPABASE_KEY } = import.meta.env;
+const supabase = createClient(VITE_SUPABASE_URL, VITE_SUPABASE_KEY);
 
 export const useCategoriesStore = defineStore('categoriesStore', {
   state: () => ({
@@ -28,13 +16,12 @@ export const useCategoriesStore = defineStore('categoriesStore', {
     },
     async getPlatforms() {
       this.setIsLoading(true);
-      const bodyObj = {
-        action: 'getPlatforms',
-      };
-      const response = await sendRequest(bodyObj);
-      if (response) {
-        this.platformsArr = response;
-      }
+      let { data: platforms, error } = await supabase
+      .from('platforms')
+      .select('*');
+      platforms[0].created_at = new Date(platforms[0].created_at).toLocaleString();
+      console.log(platforms.created_at);
+      this.platformsArr = platforms;
       this.setIsLoading(false);
     },
     async getPhones() {
