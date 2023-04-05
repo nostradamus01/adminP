@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      tableHead: ['ID', 'Chipset', 'CPU', 'GPU']
+      tableHead: ['ID', 'Created date', 'Chipset', 'CPU', 'GPU']
     }
   },
   mounted() {

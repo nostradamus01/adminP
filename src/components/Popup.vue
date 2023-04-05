@@ -18,12 +18,14 @@ import ExitSvg from '@/components/icons/Exit.vue';
 import { useMainStore } from '@/store/mainStore';
 import PhoneForm from '@/components/forms/PhoneForm.vue';
 import PlatformForm from '@/components/forms/PlatformForm.vue';
+import OsForm from './forms/OsForm.vue';
 
 export default {
   components: {
     ExitSvg,
     PhoneForm,
-    PlatformForm
+    PlatformForm,
+    OsForm
   },
   methods: {
     close() {
@@ -64,6 +66,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 }
 
 .popup.popup2 {

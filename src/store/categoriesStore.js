@@ -19,8 +19,9 @@ export const useCategoriesStore = defineStore('categoriesStore', {
       let { data: platforms, error } = await supabase
       .from('platforms')
       .select('*');
-      platforms[0].created_at = new Date(platforms[0].created_at).toLocaleString();
-      console.log(platforms.created_at);
+      platforms.forEach((platform) => {
+        platform.created_at = new Date(platform.created_at).toLocaleString();
+      })
       this.platformsArr = platforms;
       this.setIsLoading(false);
     },

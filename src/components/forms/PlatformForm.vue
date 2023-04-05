@@ -10,48 +10,25 @@
     </form>
   </div>
 </template>
-
-<script>
+<script setup>
+import { ref } from 'vue';
 import { createClient } from "@supabase/supabase-js";
+import { useMainStore } from '@/store/mainStore';
+import { useCategoriesStore } from '@/store/categoriesStore';
+const categoriesStore = useCategoriesStore();
 const { VITE_SUPABASE_URL, VITE_SUPABASE_KEY } = import.meta.env;
-
 const supabase = createClient(VITE_SUPABASE_URL, VITE_SUPABASE_KEY);
-
-export default {
-  data() {
-    return {
-      chipset: '',
-      gpu: '',
-      cpu: ''
-    }
-  },
-  methods: {
-    async sendData() {
-      const { chipset, cpu, gpu } = this;
-      const { error } = await supabase
-      .from('platforms')
-      .insert({ cpu: cpu, gpu: gpu, chipset: chipset });
-      console.log(error);
-      // const bodyObj = {
-      //   action: 'addPlatform',
-      //   data: {
-      //     chipset: this.chipset,
-      //     gpu: this.gpu,
-      //     cpu: this.cpu
-      //   }
-      // };
-      // console.log(bodyObj);
-      // const harcum = await fetch('/api/apu', {
-      //   method: 'POST',
-      //   body: JSON.stringify(bodyObj),
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // });
-      // const patasxan = await harcum.json();
-      // console.log(patasxan);
-    }
-  },
+const mainStore = useMainStore();
+const chipset = ref('');
+const gpu = ref('');
+const cpu = ref('');
+const sendData = async () => {
+  mainStore.showPopup(false);
+  const { error } = await supabase
+    .from('platforms')
+    .insert({ cpu: cpu.value, gpu: gpu.value, chipset: chipset.value });
+  categoriesStore.getPlatforms();
 }
-</script>
+</script >
+
 <style></style>

@@ -25,7 +25,7 @@ const routes = [
         path: '/colors', name: 'Color', component: Colors
       },
       {
-        path: '/os', name: 'OS', component: OS
+        path: '/os', name: 'Os', component: OS
       },
       {
         path: '/brands', name: 'Brand', component: Brands

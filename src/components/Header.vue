@@ -29,7 +29,7 @@ import LogoutSvg from '@/components/icons/Logout.vue';
 export default {
     components: {
         LogoSvg,
-        LogoutSvg
+        LogoutSvg,
     }
 }
 </script>
