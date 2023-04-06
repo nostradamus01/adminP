@@ -1,44 +1,26 @@
+<script setup>
+import { useMainStore } from '@/store/main.js';
+import Header from '@/components/Header.vue';
+
+const mainStore = useMainStore();
+const showPopup = () => {
+  mainStore.showPopup(true);
+}
+</script>
+
 <template>
   <Header></Header>
   <div class="add">
     <button class="addbtn" @click="showPopup">Add</button>
-    <h3>{{ mainStore.activeCategoryForm }}</h3>
-  </div>
-  <div v-if="mainStore.isPopupVisible">
-    <Popup></Popup>
   </div>
   <router-view></router-view>
 </template>
-
-<script>
-import { useMainStore } from '@/store/mainStore';
-import Header from '@/components/Header.vue';
-import Popup from '@/components/Popup.vue';
-
-export default {
-  components: {
-    Header,
-    Popup
-  },
-  setup() {
-    const mainStore = useMainStore();
-
-    return { mainStore }
-  },
-  methods: {
-    showPopup() {
-      this.mainStore.showPopup(true);
-    }
-  }
-}
-</script>
 
 <style>
 .add {
   display: flex;
   justify-content: center;
   align-items: center;
-  ;
   margin: 20px;
 }
 

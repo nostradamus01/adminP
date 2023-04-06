@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { useLoginStore } from '@/store/loginStore';
+import { useLoginStore } from '@/store/login.js';
 import LogoSvg from '@/components/icons/Logo.vue';
 
 export default {

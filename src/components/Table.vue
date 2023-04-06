@@ -33,6 +33,7 @@ const { isLoading, tableHead, dataMobile } = defineProps({
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  padding-bottom: 30px;
 }
 
 .table-cont.loading .loader-cont {

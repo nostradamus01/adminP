@@ -1,45 +1,59 @@
 <template>
-  <div>
-    <div class="popup">
-      <div class="form-container">
-        <div class="popup-header">
-          <h3>PHONES</h3>
-          <div class="exit">
-            <ExitSvg @click="close" />
+  <Transition name="modal">
+    <div class="popup" v-if="mainStore.isPopupVisible">
+      <div class="popup-cont">
+        <div class="form-container">
+          <div class="popup-header">
+            <h3>PHONES</h3>
+            <div class="exit">
+              <ExitSvg @click="close" />
+            </div>
           </div>
+          <component :is="mainStore.activeCategoryForm"></component>
         </div>
-        <component :is="mainStore.activeCategoryForm"></component>
       </div>
     </div>
-  </div>
+  </Transition>
 </template>
+
 <script>
 import ExitSvg from '@/components/icons/Exit.vue';
-import { useMainStore } from '@/store/mainStore';
-import PhoneForm from '@/components/forms/PhoneForm.vue';
 import PlatformForm from '@/components/forms/PlatformForm.vue';
-import OsForm from './forms/OsForm.vue';
+import PhoneForm from '@/components/forms/PhoneForm.vue';
+import OsForm from '@/components/forms/OsForm.vue';
+import { useMainStore } from '@/store/main';
 
 export default {
   components: {
     ExitSvg,
-    PhoneForm,
     PlatformForm,
+    PhoneForm,
     OsForm
-  },
-  methods: {
-    close() {
-      this.mainStore.showPopup(false);
-    }
   },
   setup() {
     const mainStore = useMainStore();
 
     return { mainStore }
+  },
+  methods: {
+    close() {
+      this.mainStore.showPopup(false);
+    }
   }
 }
 </script>
-<style >
+
+<style lang="scss">
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
 .form-container {
   background-color: #999b9c;
   padding: 20px 25px;
@@ -54,23 +68,6 @@ export default {
 .exit svg {
   width: 100%;
   height: 100%;
-}
-
-.popup {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(39, 34, 28, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-.popup.popup2 {
-  visibility: visible;
 }
 
 .popup-header {

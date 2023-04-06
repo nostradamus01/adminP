@@ -10,13 +10,17 @@
     </form>
   </div>
 </template>
+
 <script setup>
 import { reactive } from 'vue';
-import { useMainStore } from '@/store/mainStore';
-import { useServerStore } from '@/store/server';
+import { useMainStore } from '@/store/main.js';
+import { useCategoriesStore } from '@/store/categories.js'
+import { usePlatforms } from '@/composables/usePlatforms.js';
 
-const serverStore = useServerStore();
 const mainStore = useMainStore();
+const categoriesStore = useCategoriesStore();
+
+const platforms = usePlatforms();
 
 const platform = reactive({
   chipset: '',
@@ -25,9 +29,13 @@ const platform = reactive({
 });
 
 const sendData = async () => {
-  await serverStore.addPlatform(platform);
   mainStore.showPopup(false);
-  await serverStore.getPlatforms();
+  const result = await platforms.addPlatform(platform);
+  if (result.error) {
+    mainStore.showError(result.error);
+  } else {
+    categoriesStore.platforms.data = (await platforms.getPlatforms()).platforms;
+  }
 }
 </script >
 

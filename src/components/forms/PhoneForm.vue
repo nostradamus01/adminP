@@ -14,6 +14,16 @@
       <input class="input" placeholder="Battery Capacity" id="battery_capacity" name="battery_capacity" type="text">
       <input class="input" placeholder="Size" id="screen_size" name="screen_size" type="text">
       <input class="input" placeholder="Brand ID" id="barnd_id" name="brand_id" type="number">
+      <input class="input" placeholder="Price" id="price" name="price" type="number">
+      <input class="input" placeholder="Discount" id="discount" name="discount" type="number">
+      <input class="input" placeholder="Battery Capacity" id="battery_capacity" name="battery_capacity" type="text">
+      <input class="input" placeholder="Size" id="screen_size" name="screen_size" type="text">
+      <input class="input" placeholder="Brand ID" id="barnd_id" name="brand_id" type="number">
+      <input class="input" placeholder="Price" id="price" name="price" type="number">
+      <input class="input" placeholder="Discount" id="discount" name="discount" type="number">
+      <input class="input" placeholder="Battery Capacity" id="battery_capacity" name="battery_capacity" type="text">
+      <input class="input" placeholder="Size" id="screen_size" name="screen_size" type="text">
+      <input class="input" placeholder="Brand ID" id="barnd_id" name="brand_id" type="number">
       <select name="os_id" id="os_id">
         <option value="0" disabled selected hidden>OS</option>
       </select>

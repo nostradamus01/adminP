@@ -11,7 +11,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useMainStore } from '@/store/mainStore';
+import { useMainStore } from '@/store/main.js';
 const mainStore = useMainStore();
 const name = ref('');
 const sendData = () => {
@@ -19,4 +19,5 @@ const sendData = () => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+</style>

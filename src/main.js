@@ -10,7 +10,7 @@ import Platforms from '@/components/categories/Platforms.vue'
 import Colors from '@/components/categories/Colors.vue'
 import OS from '@/components/categories/OS.vue'
 import Brands from '@/components/categories/Brands.vue'
-import { useMainStore } from './store/mainStore';
+import { useMainStore } from './store/main';
 
 const routes = [
   {

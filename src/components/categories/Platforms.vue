@@ -1,20 +1,26 @@
 <template>
-  <Table :dataMobile="dataMobile" :tableHead="tableHead" :isLoading="serverStore.isLoading"></Table>
+  <Table :dataMobile="dataMobile" :tableHead="tableHead" :isLoading="mainStore.isLoading"></Table>
 </template>
 
 <script setup>
+import { onMounted, computed } from 'vue';
 import Table from '@/components/Table.vue';
-import { useServerStore } from '@/store/server';
-import { computed } from '@vue/reactivity';
-import { onMounted } from 'vue';
+import { useCategoriesStore } from '@/store/categories.js'
+import { usePlatforms } from '@/composables/usePlatforms.js';
+import { useMainStore } from '@/store/main.js';
 
-const serverStore = useServerStore();
+const mainStore = useMainStore();
+const categoriesStore = useCategoriesStore();
+const { getPlatforms } = usePlatforms();
 
-const dataMobile = computed(() => {return serverStore.platforms.data});
-const tableHead = computed(() => ['ID', 'Creation Date', 'Chipset', 'CPU', 'GPU']);
+const dataMobile = computed(() => {return categoriesStore.platforms.data});
+const tableHead = computed(() => ['N', 'Chipset', 'CPU', 'GPU', 'Cteation date', 'Update date']);
 
 onMounted(async () => {
-  console.log(serverStore.isLoading.value);
-  serverStore.getPlatforms();
+  const data = await getPlatforms();
+  if (data.error) {
+    mainStore.showError(data.error);
+  }
+  categoriesStore.platforms.data = data.platforms;
 })
 </script>
