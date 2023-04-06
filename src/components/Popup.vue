@@ -7,7 +7,7 @@
             <div class="loader"></div>
           </div>
           <div class="popup-header">
-            <h3>PHONES</h3>
+            <h3>{{ formName }}</h3>
             <div class="exit">
               <ExitSvg @click="close" />
             </div>
@@ -44,6 +44,11 @@ export default {
     },
     unmounted() {
       this.mainStore.setFormLoading(false);
+    }
+  },
+  computed: {
+    formName() {
+      return this.mainStore.getFormOperation() === 'add' ? 'Add' : 'Edit'; 
     }
   }
 }

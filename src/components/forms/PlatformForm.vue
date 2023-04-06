@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { usePlatforms } from '@/use/usePlatforms.js';
 
 const platforms = usePlatforms();
@@ -31,6 +31,10 @@ const sendData = async () => {
     await platforms.addPlatform(platform, true);
   }
 }
+
+onMounted(async () => {
+  
+})
 </script>
 
 <style>

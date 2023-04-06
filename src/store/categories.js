@@ -7,6 +7,10 @@ export const useCategoriesStore = defineStore('categories', () => {
     count: 0
   });
 
+  const platformSingle = ({
+    platform: {}
+  });
+
   const os = reactive({
     data: [],
     count: 0

@@ -10,12 +10,20 @@
         </td>
       </tr>
       <tr class="tr" v-for="phone in dataMobile" :key="phone.id">
-        <td class="td" v-for="(value) in phone">
-          {{ value }}
-        </td>
-        <td class="edit-exit">
-          <button class="edit"><Edit/></button>
-          <button class="exit"><Exit/></button>
+        <template v-for="(value, objKey) in phone">
+          <td class="td" v-if="objKey !== 'id'">
+            {{ value }}
+          </td>
+        </template>
+        <td class="td">
+          <div class="edit-exit">
+            <button class="edit" @click="() => { editHandler(phone.id) }">
+              <Edit />
+            </button>
+            <button class="remove" :class="phone.id" @click="() => { removeHandler(phone.id) }">
+              <Exit />
+            </button>
+          </div>
         </td>
       </tr>
     </table>
@@ -30,7 +38,18 @@ const { isLoading, tableHead, dataMobile } = defineProps({
   isLoading: Boolean,
   tableHead: Array,
   dataMobile: Array
-})
+});
+
+const emits = defineEmits(['remove', 'edit']);
+
+const removeHandler = (id) => {
+  emits('remove', id)
+}
+
+const editHandler = (id) => {
+  emits('edit', id)
+}
+
 </script>
 
 <style>
@@ -49,14 +68,16 @@ const { isLoading, tableHead, dataMobile } = defineProps({
   gap: 10px;
 }
 
-.edit, .exit {
+.edit,
+.remove {
   flex: 1;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.edit svg, .exit svg {
+.edit svg,
+.remove svg {
   height: 30px;
 }
 

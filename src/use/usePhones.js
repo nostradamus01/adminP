@@ -12,7 +12,7 @@ export function usePhones() {
 
   const editPhone = async (data) => { }
 
-  const removePhones = async (data) => { }
+  const removePhone = async (data) => { }
 
   const getPhone = async (platformId) => { }
   

@@ -24,12 +24,17 @@ export function useServer() {
     mainStore.setTableLoading(loading);
   }
 
+  const showPopup = (operation) => {
+    mainStore.showPopup(true, operation);
+  }
+
   return {
     mainStore,
     supabase,
     showError,
     closeForm,
     setFormLoading,
-    setTableLoading
+    setTableLoading,
+    showPopup
   }
 }

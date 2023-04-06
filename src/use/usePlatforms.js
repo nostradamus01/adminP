@@ -2,11 +2,11 @@ import { useServer } from "@/use/useServer";
 import { useCategoriesStore } from '@/store/categories.js'
 
 const TABLE_NAME = 'platforms';
-const COLUMNS = ['n', 'chipset', 'cpu', 'gpu', 'created_at', 'updated_at']; 
+const COLUMNS = ['n', 'chipset', 'cpu', 'gpu', 'created_at', 'updated_at', 'id'];
 
 export function usePlatforms() {
   const categoriesStore = useCategoriesStore();
-  const { mainStore, supabase, showError, closeForm, setFormLoading, setTableLoading } = useServer();
+  const { mainStore, supabase, showError, closeForm, setFormLoading, setTableLoading, showPopup } = useServer();
 
   const addPlatform = async (data, reload) => {
     setFormLoading(true);
@@ -28,12 +28,45 @@ export function usePlatforms() {
     }
   }
 
-  const editPlatform = async (data) => { }
+  const editPlatform = async (platformId) => {
+    showPopup('edit');
+    // let platformArr = [];
+    // let platform = await supabase
+    //   .from('platforms')
+    //   .select("*")
+    //   .eq('column', 'Equal to')
+    // if (platform.error) {
+    //   showError(platform.error)
+    // } else {
+    //   platformArr = platform.data;
+    //   if (platformArr.length === 1) {
+    //     categoriesStore.platformSingle.platform = platformArr[0];
+        
+    //   }
+    // }
 
-  const removePlatforms = async (data) => { }
+    //   const { data, error } = await supabase
+    // .from('platforms')
+    // .update({ other_column: 'otherValue' })
+    // .eq('some_column', 'someValue')
+
+  }
+
+  const removePlatform = async (platformId) => {
+    setTableLoading(true);
+    const { error } = await supabase
+      .from('platforms')
+      .delete()
+      .eq('id', platformId.toString());
+    if (error) {
+      showError(error);
+    } else {
+      getPlatforms()
+    }
+  }
 
   const getPlatform = async (platformId) => { }
-  
+
   const getPlatforms = async () => {
     setTableLoading(true);
     const { data, error } = await supabase.from(TABLE_NAME).select('*');
@@ -63,7 +96,7 @@ export function usePlatforms() {
     categoriesStore,
     addPlatform,
     editPlatform,
-    removePlatforms,
+    removePlatform,
     getPlatform,
     getPlatforms
   }

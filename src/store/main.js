@@ -3,9 +3,15 @@ import { ref } from 'vue'
 
 export const useMainStore = defineStore('main', () => {
   const isPopupVisible = ref(false);
-  const showPopup = (show) => {
+  const formOperation = ref('add');
+  const showPopup = (show, operation) => {
     isPopupVisible.value = !!show;
+    formOperation.value = operation || 'add';
     document.body.style.overflow = show ? 'hidden' : 'auto';
+  }
+
+  const getFormOperation = () => {
+    return formOperation.value;
   }
 
   const activeCategoryForm = ref('');
@@ -45,6 +51,7 @@ export const useMainStore = defineStore('main', () => {
     isFormLoading,
     setFormLoading,
     isTableLoading,
-    setTableLoading
+    setTableLoading,
+    getFormOperation
   }
 });
