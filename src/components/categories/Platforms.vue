@@ -1,32 +1,20 @@
 <template>
-  <Table :dataMobile="dataMobile" :tableHead="tableHead"></Table>
+  <Table :dataMobile="dataMobile" :tableHead="tableHead" :isLoading="serverStore.isLoading"></Table>
 </template>
 
-<script>
+<script setup>
 import Table from '@/components/Table.vue';
-import { useCategoriesStore } from '@/store/categoriesStore';
+import { useServerStore } from '@/store/server';
+import { computed } from '@vue/reactivity';
+import { onMounted } from 'vue';
 
-export default {
-  setup() {
-    const categoriesStore = useCategoriesStore();
+const serverStore = useServerStore();
 
-    return { categoriesStore };
-  },
-  components: {
-    Table
-  },
-  data() {
-    return {
-      tableHead: ['ID', 'Created date', 'Chipset', 'CPU', 'GPU']
-    }
-  },
-  mounted() {
-    this.categoriesStore.getPlatforms();
-  },
-  computed: {
-    dataMobile() {
-      return this.categoriesStore.platformsArr;
-    }
-  }
-}
+const dataMobile = computed(() => {return serverStore.platforms.data});
+const tableHead = computed(() => ['ID', 'Creation Date', 'Chipset', 'CPU', 'GPU']);
+
+onMounted(async () => {
+  console.log(serverStore.isLoading.value);
+  serverStore.getPlatforms();
+})
 </script>

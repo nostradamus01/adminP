@@ -1,15 +1,15 @@
 <template>
-  <div class="table-cont" :class="{ loading: categoriesStore.isLoading }">
+  <div class="table-cont" :class="{ loading: isLoading }">
     <div class="loader-cont">
       <div class="loader"></div>
     </div>
     <table class="table">
       <tr class="head-tr">
-        <td class="td" v-for="head in tableHead">
+        <td class="td" v-for="head in tableHead" :key="head">
           {{ head }}
         </td>
       </tr>
-      <tr class="tr" v-for="phone in dataMobile">
+      <tr class="tr" v-for="phone in dataMobile" :key="phone.id">
         <td class="td" v-for="(value) in phone">
           {{ value }}
         </td>
@@ -18,25 +18,12 @@
   </div>
 </template>
 
-<script>
-import { useCategoriesStore } from '@/store/categoriesStore';
-
-export default {
-  setup() {
-    const categoriesStore = useCategoriesStore();
-
-    return { categoriesStore }
-  },
-  props: {
-    tableHead: {
-      type: Array,
-      required: true
-    },
-    dataMobile: {
-      type: Array
-    }
-  }
-}
+<script setup>
+const { isLoading, tableHead, dataMobile } = defineProps({
+  isLoading: Boolean,
+  tableHead: Array,
+  dataMobile: Array
+})
 </script>
 
 <style>
@@ -58,6 +45,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 6;
 }
 
 .loader {

@@ -1,9 +1,9 @@
 <template>
   <div>
     <form class="phones" @submit.prevent="sendData">
-      <input v-model="chipset" class="input" placeholder="Chipset" id="chipset" name="chipset" type="text">
-      <input v-model="gpu" class="input" placeholder="Gpu" id="gpu" name="gpu" type="text">
-      <input v-model="cpu" class="input" placeholder="Cpu" id="cpu" name="cpu" type="text">
+      <input v-model="platform.chipset" class="input" placeholder="Chipset" id="chipset" name="chipset" type="text">
+      <input v-model="platform.cpu" class="input" placeholder="CPU" id="cpu" name="cpu" type="text">
+      <input v-model="platform.gpu" class="input" placeholder="GPU" id="gpu" name="gpu" type="text">
       <button class="button" type="submit">SEND</button>
       <div class="error">
       </div>
@@ -11,23 +11,23 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
-import { createClient } from "@supabase/supabase-js";
+import { reactive } from 'vue';
 import { useMainStore } from '@/store/mainStore';
-import { useCategoriesStore } from '@/store/categoriesStore';
-const categoriesStore = useCategoriesStore();
-const { VITE_SUPABASE_URL, VITE_SUPABASE_KEY } = import.meta.env;
-const supabase = createClient(VITE_SUPABASE_URL, VITE_SUPABASE_KEY);
+import { useServerStore } from '@/store/server';
+
+const serverStore = useServerStore();
 const mainStore = useMainStore();
-const chipset = ref('');
-const gpu = ref('');
-const cpu = ref('');
+
+const platform = reactive({
+  chipset: '',
+  cpu: '',
+  gpu: ''
+});
+
 const sendData = async () => {
+  await serverStore.addPlatform(platform);
   mainStore.showPopup(false);
-  const { error } = await supabase
-    .from('platforms')
-    .insert({ cpu: cpu.value, gpu: gpu.value, chipset: chipset.value });
-  categoriesStore.getPlatforms();
+  await serverStore.getPlatforms();
 }
 </script >
 
