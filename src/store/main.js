@@ -22,6 +22,16 @@ export const useMainStore = defineStore('main', () => {
   const hideError = () => {
     isErrorVisible.value = false;
   }
+
+  const isFormLoading = ref(false);
+  const setFormLoading = (loading) => {
+    isFormLoading.value = !!loading;
+  }
+
+  const isTableLoading = ref(false);
+  const setTableLoading = (loading) => {
+    isTableLoading.value = !!loading;
+  }
   
   return {
     isPopupVisible,
@@ -31,6 +41,10 @@ export const useMainStore = defineStore('main', () => {
     isErrorVisible,
     errorMsg,
     showError,
-    hideError
+    hideError,
+    isFormLoading,
+    setFormLoading,
+    isTableLoading,
+    setTableLoading
   }
 });

@@ -13,12 +13,7 @@
 
 <script setup>
 import { reactive } from 'vue';
-import { useMainStore } from '@/store/main.js';
-import { useCategoriesStore } from '@/store/categories.js'
-import { usePlatforms } from '@/composables/usePlatforms.js';
-
-const mainStore = useMainStore();
-const categoriesStore = useCategoriesStore();
+import { usePlatforms } from '@/use/usePlatforms.js';
 
 const platforms = usePlatforms();
 
@@ -29,14 +24,8 @@ const platform = reactive({
 });
 
 const sendData = async () => {
-  mainStore.showPopup(false);
-  const result = await platforms.addPlatform(platform);
-  if (result.error) {
-    mainStore.showError(result.error);
-  } else {
-    categoriesStore.platforms.data = (await platforms.getPlatforms()).platforms;
-  }
+  await platforms.addPlatform(platform, true);
 }
-</script >
+</script>
 
 <style></style>

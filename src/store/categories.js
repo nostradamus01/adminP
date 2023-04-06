@@ -3,7 +3,8 @@ import { reactive } from 'vue'
 
 export const useCategoriesStore = defineStore('categories', () => {
   const platforms = reactive({
-    data: []
+    data: [],
+    count: 0
   });
   
   return {

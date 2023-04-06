@@ -1,12 +1,15 @@
-import { useSupabase } from "@/composables/useServer";
+import { useServer } from "@/use/useServer";
+import { useCategoriesStore } from '@/store/categories.js'
+
+const TABLE_NAME = 'platforms';
+const COLUMNS = ['n', 'chipset', 'cpu', 'gpu', 'created_at', 'updated_at']; 
 
 export function usePlatforms() {
-  const TABLE_NAME = 'platforms';
-  const COLUMNS = ['n', 'chipset', 'cpu', 'gpu', 'created_at', 'updated_at']; 
+  const categoriesStore = useCategoriesStore();
+  const { mainStore, supabase, showError, closeForm, setFormLoading, setTableLoading } = useServer();
 
-  const { supabase } = useSupabase();
-
-  const addPlatform = async (data) => {
+  const addPlatform = async (data, reload) => {
+    setFormLoading(true);
     const dateNow = new Date();
     const options = {
       chipset: data.chipset,
@@ -16,8 +19,12 @@ export function usePlatforms() {
     }
 
     const { error } = await supabase.from(TABLE_NAME).insert(options);
-    return {
-      error
+    setFormLoading(false);
+    closeForm();
+    if (error) {
+      showError(error);
+    } else if (reload) {
+      await getPlatforms();
     }
   }
 
@@ -28,11 +35,10 @@ export function usePlatforms() {
   const getPlatform = async (platformId) => { }
   
   const getPlatforms = async () => {
+    setTableLoading(true);
     const { data, error } = await supabase.from(TABLE_NAME).select('*');
     if (error) {
-      return {
-        error
-      };
+      showError(error);
     } else {
       let n = 1;
       const result = [];
@@ -47,15 +53,14 @@ export function usePlatforms() {
         result.push(obj);
         n++;
       });
-      return {
-        platforms: result
-      };
+      categoriesStore.platforms.data = result;
     }
+    setTableLoading(false);
   }
 
   return {
-    TABLE_NAME,
-    COLUMNS,
+    mainStore,
+    categoriesStore,
     addPlatform,
     editPlatform,
     removePlatforms,

@@ -2,7 +2,10 @@
   <Transition name="modal">
     <div class="popup" v-if="mainStore.isPopupVisible">
       <div class="popup-cont">
-        <div class="form-container">
+        <div class="form-container" :class="{ loading: mainStore.isFormLoading }">
+          <div class="loader-cont">
+            <div class="loader"></div>
+          </div>
           <div class="popup-header">
             <h3>PHONES</h3>
             <div class="exit">
@@ -38,6 +41,9 @@ export default {
   methods: {
     close() {
       this.mainStore.showPopup(false);
+    },
+    unmounted() {
+      this.mainStore.setFormLoading(false);
     }
   }
 }
@@ -58,6 +64,24 @@ export default {
   background-color: #999b9c;
   padding: 20px 25px;
   border-radius: 10px;
+  position: relative;
+}
+
+.form-container.loading .loader-cont {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ffffffa1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+}
+
+.form-container.loading .loader {
+  display: block;
 }
 
 .exit {
