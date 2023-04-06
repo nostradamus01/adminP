@@ -13,12 +13,19 @@
         <td class="td" v-for="(value) in phone">
           {{ value }}
         </td>
+        <td class="edit-exit">
+          <button class="edit"><Edit/></button>
+          <button class="exit"><Exit/></button>
+        </td>
       </tr>
     </table>
   </div>
 </template>
 
 <script setup>
+import Edit from './icons/Edit.vue';
+import Exit from './icons/Exit.vue';
+
 const { isLoading, tableHead, dataMobile } = defineProps({
   isLoading: Boolean,
   tableHead: Array,
@@ -34,6 +41,23 @@ const { isLoading, tableHead, dataMobile } = defineProps({
   justify-content: center;
   align-items: flex-start;
   padding-bottom: 30px;
+}
+
+.edit-exit {
+  display: flex;
+  height: 40px;
+  gap: 10px;
+}
+
+.edit, .exit {
+  flex: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.edit svg, .exit svg {
+  height: 30px;
 }
 
 .table-cont.loading .loader-cont {
