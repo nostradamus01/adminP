@@ -1,6 +1,6 @@
 <template>
   <Transition name="modal">
-    <div class="popup" v-if="mainStore.isPopupVisible">
+    <div class="popup beauty-scrollbar" v-if="mainStore.isPopupVisible">
       <div class="popup-cont">
         <div class="form-container" :class="{ loading: mainStore.isFormLoading }">
           <div class="loader-cont">

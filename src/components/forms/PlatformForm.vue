@@ -1,22 +1,22 @@
 <template>
-  <div>
+  <div class="form-cont">
     <form class="phones" @submit.prevent="sendData">
-      <input v-model="platform.chipset" class="input" placeholder="Chipset" id="chipset" name="chipset" type="text">
-      <input v-model="platform.cpu" class="input" placeholder="CPU" id="cpu" name="cpu" type="text">
-      <input v-model="platform.gpu" class="input" placeholder="GPU" id="gpu" name="gpu" type="text">
+      <input v-model="platform.chipset" class="input" placeholder="Chipset" type="text">
+      <input v-model="platform.cpu" class="input" placeholder="CPU" type="text">
+      <input v-model="platform.gpu" class="input" placeholder="GPU" type="text">
       <button class="button" type="submit">SEND</button>
-      <div class="error">
-      </div>
+      <div class="error">{{ errorMsg }}</div>
     </form>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { usePlatforms } from '@/use/usePlatforms.js';
 
 const platforms = usePlatforms();
 
+const errorMsg = ref('');
 const platform = reactive({
   chipset: '',
   cpu: '',
@@ -24,8 +24,17 @@ const platform = reactive({
 });
 
 const sendData = async () => {
-  await platforms.addPlatform(platform, true);
+  errorMsg.value = '';
+  if (platform.chipset.trim() === '' || platform.cpu.trim() === '' || platform.gpu.trim() === '') {
+    errorMsg.value = 'Some of these fields are empty';
+  } else {
+    await platforms.addPlatform(platform, true);
+  }
 }
 </script>
 
-<style></style>
+<style>
+.error {
+  margin-top: 20px;
+}
+</style>
