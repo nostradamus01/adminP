@@ -24,6 +24,7 @@ import ExitSvg from '@/components/icons/Exit.vue';
 import PlatformForm from '@/components/forms/PlatformForm.vue';
 import PhoneForm from '@/components/forms/PhoneForm.vue';
 import OsForm from '@/components/forms/OsForm.vue';
+import BrandForm from './forms/BrandForm.vue';
 import { useMainStore } from '@/store/main';
 
 export default {
@@ -31,7 +32,8 @@ export default {
     ExitSvg,
     PlatformForm,
     PhoneForm,
-    OsForm
+    OsForm,
+    BrandForm
   },
   setup() {
     const mainStore = useMainStore();
