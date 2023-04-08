@@ -4,17 +4,16 @@ import { useCategoriesStore } from '@/store/categories.js';
 const TABLE_NAME = 'os';
 const COLUMNS = ['n', 'id', 'created_at', 'updated_at', 'name'];
 
-export function usePlatforms() {
+export function useOs() {
   const categoriesStore = useCategoriesStore();
   const { mainStore, supabase, showError, closeForm, setFormLoading, setTableLoading, showPopup } = useServer();
 
-  const addPlatform = async (data, reload) => {
+  const addOs = async (data, reload) => {
+    console.log(data);
     setFormLoading(true);
     const dateNow = new Date();
     const options = {
-      chipset: data.chipset,
-      cpu: data.cpu,
-      gpu: data.gpu,
+      name: data.name,
       updated_at: dateNow
     }
 
@@ -24,50 +23,26 @@ export function usePlatforms() {
     if (error) {
       showError(error);
     } else if (reload) {
-      await getPlatforms();
+      await getOses();
     }
   }
 
-  const editPlatform = async (platformId) => {
-    showPopup('edit');
-    // let platformArr = [];
-    // let platform = await supabase
-    //   .from('platforms')
-    //   .select("*")
-    //   .eq('column', 'Equal to')
-    // if (platform.error) {
-    //   showError(platform.error)
-    // } else {
-    //   platformArr = platform.data;
-    //   if (platformArr.length === 1) {
-    //     categoriesStore.platformSingle.platform = platformArr[0];
-        
-    //   }
-    // }
-
-    //   const { data, error } = await supabase
-    // .from('platforms')
-    // .update({ other_column: 'otherValue' })
-    // .eq('some_column', 'someValue')
-
-  }
-
-  const removePlatform = async (platformId) => {
+  const removeOs = async (osId) => {
     setTableLoading(true);
     const { error } = await supabase
-      .from('platforms')
+      .from(TABLE_NAME)
       .delete()
-      .eq('id', platformId.toString());
+      .eq('id', osId.toString());
     if (error) {
       showError(error);
     } else {
-      getPlatforms()
+      getOses()
     }
   }
 
-  const getPlatform = async (platformId) => { }
+  const getOs = async (osId) => { }
 
-  const getPlatforms = async () => {
+  const getOses = async () => {
     setTableLoading(true);
     const { data, error } = await supabase.from(TABLE_NAME).select('*');
     if (error) {
@@ -75,10 +50,10 @@ export function usePlatforms() {
     } else {
       let n = 1;
       const result = [];
-      data.forEach(platform => {
+      data.forEach(os => {
         const obj = {};
         COLUMNS.forEach(column => {
-          obj[column] = platform[column] || '-';
+          obj[column] = os[column] || '-';
         });
         obj['created_at'] = new Date(obj['created_at']).toLocaleString();
         obj['updated_at'] = new Date(obj['updated_at']).toLocaleString();
@@ -86,18 +61,43 @@ export function usePlatforms() {
         result.push(obj);
         n++;
       });
-      categoriesStore.platforms.data = result;
+      categoriesStore.oses.data = result;
     }
     setTableLoading(false);
+  }
+
+  const showEditOsForm = async (osId) => {
+    categoriesStore.selectOsId(osId);
+    showPopup('edit');
+  }
+
+  const editOs = async (data) => {
+    setFormLoading(true);
+    const dateNow = new Date();
+    const { error } = await supabase
+      .from(TABLE_NAME)
+      .update({
+        name: data.name,
+        updated_at: dateNow
+      })
+      .eq('id', data.id);
+    setFormLoading(false);
+    closeForm();
+    if (error) {
+      showError(error);
+    } else {
+      getOses();
+    }
   }
 
   return {
     mainStore,
     categoriesStore,
-    addPlatform,
-    editPlatform,
-    removePlatform,
-    getPlatform,
-    getPlatforms
+    addOs,
+    editOs,
+    removeOs,
+    getOs,
+    getOses,
+    showEditOsForm
   }
 }
