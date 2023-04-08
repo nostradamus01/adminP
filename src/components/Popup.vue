@@ -26,6 +26,7 @@ import PhoneForm from '@/components/forms/PhoneForm.vue';
 import OsForm from '@/components/forms/OsForm.vue';
 import BrandForm from './forms/BrandForm.vue';
 import { useMainStore } from '@/store/main';
+import { useCategoriesStore } from '@/store/categories';
 
 export default {
   components: {
@@ -37,15 +38,18 @@ export default {
   },
   setup() {
     const mainStore = useMainStore();
+    const categoriesStore = useCategoriesStore();
 
-    return { mainStore }
+    return {categoriesStore, mainStore }
   },
   methods: {
     close() {
       this.mainStore.showPopup(false);
+      this.categoriesStore.resetAllIds();
     },
     unmounted() {
       this.mainStore.setFormLoading(false);
+      
     }
   },
   computed: {

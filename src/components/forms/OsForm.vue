@@ -41,7 +41,6 @@ onMounted(async () => {
   const osesData = toRaw(categoriesStore.oses).data;
   if (osId !== null) {
     const selectedOs = osesData.find(os => os.id === osId);
-    console.log(selectedOs);
     name.value = selectedOs.name || '';
   }
 })

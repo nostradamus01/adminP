@@ -11,6 +11,11 @@ export const useCategoriesStore = defineStore('categories', {
     oses: {
       data: [],
       count: null
+    },
+    selectedBrandId: null,
+    brands: {
+      data: [],
+      count: null
     }
   }),
   getters: {
@@ -18,7 +23,8 @@ export const useCategoriesStore = defineStore('categories', {
     getPlatformsArray: (state) => state.platforms.data,
     getSelectedOsId: (state) => state.selectedOsId,
     getOsesArray: (state) => state.oses.data,
-
+    getSelectedBrandId: (state) => state.selectedBrandId,
+    getBrandsArray: (state) => state.brands.data,
   },
   actions: {
     selectPlatformId(id) {
@@ -26,6 +32,14 @@ export const useCategoriesStore = defineStore('categories', {
     },
     selectOsId(id) {
       this.selectedOsId = id;
+    },
+    selectBrandId(id) {
+      this.selectedBrandId = id;
+    },
+    resetAllIds() {
+      this.selectedPlatformId = null;
+      this.selectedOsId = null;
+      this.selectedBrandId = null;
     }
   }
 });
