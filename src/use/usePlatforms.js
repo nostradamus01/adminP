@@ -28,28 +28,30 @@ export function usePlatforms() {
     }
   }
 
-  const editPlatform = async (platformId) => {
+  const showEditPlatformForm = async (platformId) => {
+    categoriesStore.selectPlatformId(platformId);
     showPopup('edit');
-    // let platformArr = [];
-    // let platform = await supabase
-    //   .from('platforms')
-    //   .select("*")
-    //   .eq('column', 'Equal to')
-    // if (platform.error) {
-    //   showError(platform.error)
-    // } else {
-    //   platformArr = platform.data;
-    //   if (platformArr.length === 1) {
-    //     categoriesStore.platformSingle.platform = platformArr[0];
-        
-    //   }
-    // }
+  }
 
-    //   const { data, error } = await supabase
-    // .from('platforms')
-    // .update({ other_column: 'otherValue' })
-    // .eq('some_column', 'someValue')
-
+  const editPlatform = async (platformData) => {
+    setFormLoading(true);
+    const dateNow = new Date();
+    const { error } = await supabase
+      .from(TABLE_NAME)
+      .update({
+        chipset: platformData.chipset,
+        cpu: platformData.cpu,
+        gpu: platformData.gpu,
+        updated_at: dateNow
+      })
+      .eq('id', platformData.id);
+    setFormLoading(false);
+    closeForm();
+    if (error) {
+      showError(error);
+    } else {
+      getPlatforms();
+    }
   }
 
   const removePlatform = async (platformId) => {
@@ -65,11 +67,23 @@ export function usePlatforms() {
     }
   }
 
-  const getPlatform = async (platformId) => { }
+  const getPlatform = async (platformId) => {
+    setFormLoading(true);
+    const { data, error } = await supabase
+      .from(TABLE_NAME)
+      .select("*")
+      .eq('id', platformId.toString());
+    if (error) {
+      showError(error);
+      return {};
+    } else if (data.length === 1) {
+      return data[0];
+    }
+  }
 
   const getPlatforms = async () => {
     setTableLoading(true);
-    const { data, error } = await supabase.from(TABLE_NAME).select('*');
+    const { data, error } = await supabase.from(TABLE_NAME).select('*').order('id',  { ascending: true });
     if (error) {
       showError(error);
     } else {
@@ -95,6 +109,7 @@ export function usePlatforms() {
     mainStore,
     categoriesStore,
     addPlatform,
+    showEditPlatformForm,
     editPlatform,
     removePlatform,
     getPlatform,

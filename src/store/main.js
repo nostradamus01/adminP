@@ -18,6 +18,7 @@ export const useMainStore = defineStore('main', () => {
   const setActiveCategory = (category) => {
     activeCategoryForm.value = category;
   }
+  
 
   const isErrorVisible = ref(false);
   const errorMsg = ref('');

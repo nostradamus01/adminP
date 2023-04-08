@@ -1,22 +1,20 @@
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
 
-export const useCategoriesStore = defineStore('categories', () => {
-  const platforms = reactive({
-    data: [],
-    count: 0
-  });
-
-  const platformSingle = ({
-    platform: {}
-  });
-
-  const os = reactive({
-    data: [],
-    count: 0
-  });
-  
-  return {
-    platforms
+export const useCategoriesStore = defineStore('categories', {
+  state: () => ({
+    selectedPlatformId: null,
+    platforms: {
+      data: [],
+      count: null
+    }
+  }),
+  getters: {
+    getSelectedPlatformId: (state) => state.selectedPlatformId,
+    getPlatformsArray: (state) => state.platforms.data
+  },
+  actions: {
+    selectPlatformId(id) {
+      this.selectedPlatformId = id;
+    }
   }
 });
